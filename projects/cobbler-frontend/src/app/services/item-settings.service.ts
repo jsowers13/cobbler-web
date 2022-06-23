@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {CobblerApiService} from 'cobbler-api';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +117,13 @@ export class ItemSettingsService {
     {name: 'yumdownloader_flags', value: '--resolve', type: 'str'},
   ];
 
-  constructor() {
+  constructor(
+    public authO: UserService,
+    private cobblerApiService: CobblerApiService
+  ) {
+    cobblerApiService.get_settings(authO.token).subscribe(value => {
+      console.log(value)
+    })
   }
 
   getAll(): Array<object> {
