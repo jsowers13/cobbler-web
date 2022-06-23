@@ -2,6 +2,7 @@ import {Injectable, Inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AngularXmlrpcService, MethodResponse, MethodFault, XmlRpcStruct, XmlRpcArray} from 'typescript-xmlrpc';
+import {COBBLER_URL} from './lib.config';
 import {Distro, Image, Mgmgtclass, Package, Profile, Repo, System, File} from './custom-types/items';
 import {
   BackgroundAclSetupOptions,
@@ -24,7 +25,7 @@ import {
 export class CobblerApiService {
   private client: AngularXmlrpcService;
 
-  constructor(xmlrpcService: AngularXmlrpcService, @Inject('COBBLER_URL') url: URL) {
+  constructor(xmlrpcService: AngularXmlrpcService, @Inject(COBBLER_URL) url: URL) {
     this.client = xmlrpcService;
     this.client.configureService(url);
   }
