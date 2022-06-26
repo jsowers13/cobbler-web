@@ -1,3 +1,13 @@
+export type Settings = V3_3_1 | V3_3_2 | V3_3_3 | V3_4_0
+
+export interface V3_3_1 {
+  // TODO
+}
+
+export interface V3_3_2 {
+  // TODO
+}
+
 export interface V3_3_3 {
   auto_migrate_settings: boolean
   allow_duplicate_hostnames: boolean
@@ -131,4 +141,8 @@ export interface V3_3_3 {
   windows_enabled?: boolean
   windows_template_dir?: string
   samba_distro_share?: string
+}
+
+export interface V3_4_0 {
+  // TODO
 }

@@ -2,6 +2,7 @@ import {Injectable, Inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AngularXmlrpcService, MethodResponse, MethodFault, XmlRpcStruct, XmlRpcArray} from 'typescript-xmlrpc';
+import {Settings} from './custom-types/settings';
 import {COBBLER_URL} from './lib.config';
 import {Distro, Image, Mgmgtclass, Package, Profile, Repo, System, File} from './custom-types/items';
 import {
@@ -2049,13 +2050,20 @@ export class CobblerApiService {
       );
   }
 
-  get_settings(token: string): Observable<object> {
+  get_settings(token: string): Observable<Settings> {
     return this.client
       .methodCall('get_settings', [token])
       .pipe(
-        map<MethodResponse | MethodFault, object>((data: MethodResponse | MethodFault) => {
+        map<MethodResponse | MethodFault, Settings>((data: MethodResponse | MethodFault) => {
           if (AngularXmlrpcService.instanceOfMethodResponse(data)) {
-            return data.value as object;
+            const return_value = {}
+            if (AngularXmlrpcService.instanceOfXmlRpcStruct(data.value)) {
+              data.value.members.forEach((value) => {
+                return_value[value.name] = value.value
+              });
+              return return_value as Settings;
+            }
+            throw new Error('The return value of the settings was not in the expected format of an XML-RPC Struct!')
           } else if (AngularXmlrpcService.instanceOfMethodFault(data)) {
             throw new Error('Retrieving the settings failed with code "' + data.faultCode + '" and error message "'
               + data.faultString + '"');
