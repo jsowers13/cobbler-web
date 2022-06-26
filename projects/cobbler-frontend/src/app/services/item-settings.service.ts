@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CobblerApiService} from 'cobbler-api';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Settings} from '../../../../cobbler-api/src/lib/custom-types/settings';
+import {Settings} from 'cobbler-api';
 import {UserService} from './user.service';
 
 @Injectable({
